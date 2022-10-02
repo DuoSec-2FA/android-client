@@ -13,42 +13,45 @@
         android:theme="@style/Theme.DuoSec"
         tools:targetApi="31">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".settings.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".home.HomeActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".home.HomeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".fingerprint.VerifyFingerPrintActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".VerifyFingerPrintActivity"
-            android:exported="false">
+            android:name=".recoverycode.RecoveryCodeActivity"
+            android:exported="false"
+            android:parentActivityName=".home.HomeActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RecoveryCodeActivity"
-            android:exported="false">
+            android:name=".fingerprint.FingerPrintActivity"
+            android:exported="false"
+            android:parentActivityName=".registration.RegistrationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".FingerPrintActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".RegistrationActivity"
+            android:name=".registration.RegistrationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
