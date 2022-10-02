@@ -1,7 +1,7 @@
 package com.twofa.duosec.fingerprint
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivityFingerPrintBinding
 
 class FingerPrintActivity : AppCompatActivity() {
@@ -13,5 +13,7 @@ class FingerPrintActivity : AppCompatActivity() {
         binding = ActivityFingerPrintBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        supportActionBar?.title = "Add FingerPrint"
     }
 }

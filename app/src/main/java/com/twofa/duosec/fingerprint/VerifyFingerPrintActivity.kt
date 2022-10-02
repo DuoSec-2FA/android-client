@@ -1,8 +1,7 @@
 package com.twofa.duosec.fingerprint
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.twofa.duosec.databinding.ActivityFingerPrintBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivityVerifyFingerPrintBinding
 
 class VerifyFingerPrintActivity : AppCompatActivity() {
@@ -13,5 +12,7 @@ class VerifyFingerPrintActivity : AppCompatActivity() {
         binding = ActivityVerifyFingerPrintBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        supportActionBar?.title = "Verify FingerPrint"
     }
 }

@@ -1,7 +1,7 @@
 package com.twofa.duosec.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -13,5 +13,6 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        supportActionBar?.title = "Duo Sec"
     }
 }
