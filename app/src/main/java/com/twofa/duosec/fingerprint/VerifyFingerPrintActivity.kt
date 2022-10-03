@@ -1,8 +1,10 @@
 package com.twofa.duosec.fingerprint
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivityVerifyFingerPrintBinding
+import com.twofa.duosec.home.HomeActivity
 
 class VerifyFingerPrintActivity : AppCompatActivity() {
 
@@ -14,5 +16,9 @@ class VerifyFingerPrintActivity : AppCompatActivity() {
         setContentView(view)
 
         supportActionBar?.title = "Verify FingerPrint"
+
+        binding.btnVerifyFingerPrint.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
     }
 }

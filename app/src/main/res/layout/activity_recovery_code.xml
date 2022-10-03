@@ -157,6 +157,6 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:cornerRadius="30dp" />
+        app:cornerRadius="10dp" />
 
 </RelativeLayout>
