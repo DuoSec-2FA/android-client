@@ -26,9 +26,9 @@ class RecoveryCodeActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateOTP(): Long {
+    private fun generateOTP(): Int {
         val r = Random()
-        val low = 9000000000
+        val low = 1000000000
         val high = 9999999999
         return r.nextInt((high - low).toInt()) + low
     }
