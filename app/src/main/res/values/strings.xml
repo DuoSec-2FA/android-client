@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Duo Sec</string>
+    <string name="scanner_error">Scanner error: %s</string>
+</resources>
