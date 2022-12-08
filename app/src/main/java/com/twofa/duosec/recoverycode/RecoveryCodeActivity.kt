@@ -21,20 +21,20 @@ class RecoveryCodeActivity : AppCompatActivity() {
             binding.tvCode1.text = generateOTP().toString()
             binding.tvCode2.text = generateOTP().toString()
             binding.tvCode3.text = generateOTP().toString()
-            binding.tvCode4.text = generateOTP().toString()
-            binding.tvCode5.text = generateOTP().toString()
+//            binding.tvCode4.text = generateOTP().toString()
+//            binding.tvCode5.text = generateOTP().toString()
         }
 
-        val bundle = intent.extras;
+        val bundle = intent.extras
         if (bundle != null) {
-            val token = bundle.getString("Jwt Token");
+            val token = bundle.getString("Jwt Token")
             val payload = bundle.getString("Jwt Payload")
 
-            binding.tvJwtToken.text = "Jwt Token: ${token}"
-            binding.tvJwtPayload.text = "Jwt Payload: ${payload}"
+            binding.tvJwtToken.text = "Jwt Token: $token"
+            binding.tvJwtPayload.text = "Jwt Payload: $payload"
 
-            Toast.makeText(this, "Jwt Token: ${token}", Toast.LENGTH_LONG).show()
-            Toast.makeText(this, "Jwt Payload: ${payload}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Jwt Token: $token", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Jwt Payload: $payload", Toast.LENGTH_LONG).show()
         }
     }
 
