@@ -1,6 +1,7 @@
 package com.twofa.duosec.recoverycode
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivityRecoveryCodeBinding
 import java.util.*
@@ -22,7 +23,18 @@ class RecoveryCodeActivity : AppCompatActivity() {
             binding.tvCode3.text = generateOTP().toString()
             binding.tvCode4.text = generateOTP().toString()
             binding.tvCode5.text = generateOTP().toString()
+        }
 
+        val bundle = intent.extras;
+        if (bundle != null) {
+            val token = bundle.getString("Jwt Token");
+            val payload = bundle.getString("Jwt Payload")
+
+            binding.tvJwtToken.text = "Jwt Token: ${token}"
+            binding.tvJwtPayload.text = "Jwt Payload: ${payload}"
+
+            Toast.makeText(this, "Jwt Token: ${token}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Jwt Payload: ${payload}", Toast.LENGTH_LONG).show()
         }
     }
 
