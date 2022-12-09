@@ -1,11 +1,11 @@
 package com.twofa.duosec.registration
 
 import android.Manifest
-import android.content.Intent
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -13,8 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
+import com.squareup.moshi.Moshi
 import com.twofa.duosec.R
-import com.twofa.duosec.recoverycode.RecoveryCodeActivity
+import com.twofa.duosec.models.JwtPayload
 import java.util.*
 
 
@@ -22,8 +23,6 @@ class RegistrationActivity : AppCompatActivity() {
     private lateinit var codeScanner: CodeScanner
     private var hintView: TextView? = null
     private var isPermissionGranted: Boolean = false
-
-    private val TAG = "RegistrationActivity"
 
     companion object {
         private const val RC_PERMISSION = 10
@@ -37,39 +36,27 @@ class RegistrationActivity : AppCompatActivity() {
         hintView = findViewById(R.id.scanner_hint)
         codeScanner = CodeScanner(this, findViewById(R.id.scanner))
 
+//        Jwt Decouple Code
 //        val moshi = Moshi.Builder().build()
-//        val jwtPayloadAdapter = moshi.adapter<JwtPayload>(JwtPayload::class.java)
+//        val jwtPayloadAdapter = moshi.adapter(JwtPayload::class.java)
+//        val jwtPayload: JwtPayload? = jwtPayloadAdapter.fromJson(payload)
 
-//        val sharedPreferences: SharedPreferences = getSharedPreferences("DUOSEC", MODE_PRIVATE);
-//        val myEdit: SharedPreferences.Editor = sharedPreferences.edit();
+        val sharedPref = getSharedPreferences(getString(R.string.shared_pref_jwt), Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
                 val jwtToken: String = it.text
 
                 val chunks = jwtToken.split('.')
-                val (headerChunk, payloadChunk, signatureChunk) = chunks;
+                val (header, payloadChunk, _) = chunks
 
-                val decoder = Base64.getUrlDecoder();
-                val payload = String(decoder.decode(payloadChunk));
+                val decoder = Base64.getUrlDecoder()
+                val payload = String(decoder.decode(payloadChunk))
 
-                // val jwtPayload: JwtPayload? = jwtPayloadAdapter.fromJson(payload);
-
-                Toast.makeText(this, "Jwt Token: ${jwtToken}", Toast.LENGTH_LONG).show()
-                Toast.makeText(this, "Jwt Payload: ${payload}", Toast.LENGTH_LONG).show()
-                // Toast.makeText(this, "Jwt Payload: ${jwtPayload!!.toString()}", Toast.LENGTH_LONG).show()
-
-                Log.d(TAG, "Jwt Token " + jwtToken)
-                Log.d(TAG, "Jwt Payload"  + payload)
-                // Log.d(TAG, "Jwt Token Data Class " + jwtPayload!!.toString())
-
-                val bundle = Bundle()
-                bundle.putString("Jwt Token", jwtToken)
-                bundle.putString("Jwt Payload", payload)
-
-                val intent = Intent(this@RegistrationActivity, RecoveryCodeActivity::class.java)
-                intent.putExtras(bundle)
-                startActivity(intent)
+                editor.apply {
+                    putString("jwtPayload", payload)
+                }
             }
         }
 
