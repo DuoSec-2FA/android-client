@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Duo Sec</string>
+    <string name="shared_pref_jwt">SharedPref-Jwt</string>
     <string name="scanner_error">Scanner error: %s</string>
 </resources>

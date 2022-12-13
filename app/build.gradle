@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -40,19 +41,43 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
-    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     // Biometric
     implementation 'androidx.biometric:biometric:1.1.0'
-
     implementation 'com.google.mlkit:barcode-scanning:17.0.2'
+
+    // Retrofit for Network Calls
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    implementation "com.squareup.retrofit2:converter-moshi:2.6.0"
+
+    // Moshi for Json Parsing
+    implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
+
+    // Room ORM
+    implementation "androidx.room:room-runtime:2.4.3"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:2.4.3"
+    // Kotlin Extensions and Coroutines support for room
+    implementation "androidx.room:room-ktx:2.4.3"
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     //  QR Code Scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
+    // Backend Library for TOTP
+    implementation files('libs/backend-library.jar')
+
+    // Jwt Decode
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
+
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
 }

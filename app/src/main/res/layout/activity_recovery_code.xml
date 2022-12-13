@@ -19,7 +19,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_1"
+        android:id="@+id/cv_recovery_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_info"
@@ -32,7 +32,7 @@
         app:cardMaxElevation="10dp">
 
         <TextView
-            android:id="@+id/tv_code_1"
+            android:id="@+id/tv_recovery_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="5dp"
@@ -43,116 +43,16 @@
 
     </androidx.cardview.widget.CardView>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cv_1"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="10dp"
-        android:paddingVertical="5dp"
-        app:cardBackgroundColor="#E8EDDF"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="10dp">
-
-        <TextView
-            android:id="@+id/tv_code_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp"
-            android:text="9759827665"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cv_2"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="10dp"
-        android:paddingVertical="5dp"
-        app:cardBackgroundColor="#E8EDDF"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="10dp">
-
-        <TextView
-            android:id="@+id/tv_code_3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp"
-            android:text="6324732623"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cv_3"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="10dp"
-        app:cardBackgroundColor="#E8EDDF"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="10dp">
-
-        <TextView
-            android:id="@+id/tv_code_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp"
-            android:text="9861253442"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/cv_4"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginVertical="10dp"
-        app:cardBackgroundColor="#E8EDDF"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        app:cardMaxElevation="10dp">
-
-        <TextView
-            android:id="@+id/tv_code_5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="5dp"
-            android:text="1725526334"
-            android:textAlignment="center"
-            android:textSize="35sp"
-            android:textStyle="bold" />
-
-    </androidx.cardview.widget.CardView>
-
-
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_generate_codes"
+        android:id="@+id/btn_generate_recovery_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cv_5"
+        android:layout_below="@id/cv_recovery_code"
         android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="213dp"
         android:backgroundTint="#F5CB5C"
         android:paddingVertical="15dp"
-        android:text="Regenerate OTPs"
+        android:text="Regenerate Recovery Code"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="20sp"

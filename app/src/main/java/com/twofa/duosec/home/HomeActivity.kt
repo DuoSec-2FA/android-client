@@ -5,14 +5,20 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.twofa.duosec.R
+import com.twofa.duosec.database.DuosecDatabase
 import com.twofa.duosec.databinding.ActivityHomeBinding
 import com.twofa.duosec.fingerprint.FingerPrintActivity
+import com.twofa.duosec.models.jwt.JwtPayloadDatabase
 import com.twofa.duosec.registration.RegistrationActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class HomeActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,10 +28,19 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.title = "Duo Sec"
 
+        val dao = DuosecDatabase.getInstance(this).jwtPayloadDao
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val payloadsList: List<JwtPayloadDatabase> = dao.getAll()
+            withContext(Dispatchers.Main) {
+                binding.rvCompanyData.layoutManager = LinearLayoutManager(this@HomeActivity)
+                binding.rvCompanyData.adapter = JwtPayloadAdapter(payloadsList)
+            }
+        }
+
         binding.fabAddCompany.setOnClickListener {
             startActivity(Intent(this, RegistrationActivity::class.java))
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
