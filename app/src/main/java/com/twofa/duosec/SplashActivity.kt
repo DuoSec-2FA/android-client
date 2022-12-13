@@ -3,32 +3,39 @@ package com.twofa.duosec
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.databinding.ActivitySplashBinding
 import com.twofa.duosec.fingerprint.VerifyFingerPrintActivity
-import com.twofa.duosec.home.HomeActivity
 import com.twofa.duosec.registration.RegistrationActivity
 import com.twofa.duosec.utils.hideActionBar
-import org.duosec.backendlibrary.SecretGenerator
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_TIMEOUT: Long = 1500
+    private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
-
-        println(SecretGenerator.generate().toString())
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         setFullscreen()
 
-        Handler().postDelayed({
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
-        }, SPLASH_TIMEOUT)
+        binding.btnLogin.setOnClickListener {
+            startActivity(Intent(this, VerifyFingerPrintActivity::class.java))
+        }
+
+        binding.btnReg.setOnClickListener {
+            startActivity(Intent(this, RegistrationActivity::class.java))
+        }
+
+//        Handler().postDelayed({
+//            binding.btnLogin.setOnClickListener {  }
+//            startActivity(Intent(this, WelcomeActivity::class.java))
+//            finish()
+//        }, SPLASH_TIMEOUT)
     }
 
     private fun setFullscreen() {
@@ -38,5 +45,4 @@ class SplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
     }
-
 }
