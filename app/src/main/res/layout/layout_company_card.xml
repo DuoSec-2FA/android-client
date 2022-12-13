@@ -122,6 +122,13 @@
                     android:textSize="25sp" />
             </LinearLayout>
 
+            <Button
+                android:id="@+id/btn_show_recovery_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show Recovery Code"
+                android:layout_gravity="start"
+            />
 
         </LinearLayout>
     </RelativeLayout>

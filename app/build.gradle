@@ -56,12 +56,22 @@ dependencies {
     implementation 'com.squareup.moshi:moshi-kotlin:1.14.0'
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.14.0")
 
+    // Room ORM
+    implementation "androidx.room:room-runtime:2.4.3"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:2.4.3"
+    // Kotlin Extensions and Coroutines support for room
+    implementation "androidx.room:room-ktx:2.4.3"
+
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
     //  QR Code Scanner
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
+
+    // Backend Library for TOTP
+    implementation files('libs/backend-library.jar')
 
     // Jwt Decode
     implementation 'com.auth0.android:jwtdecode:2.0.1'

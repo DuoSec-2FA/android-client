@@ -1,8 +1,7 @@
 package com.twofa.duosec.registration
 
 import android.Manifest
-import android.content.Context
-import android.content.SharedPreferences
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,9 +12,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
-import com.squareup.moshi.Moshi
 import com.twofa.duosec.R
-import com.twofa.duosec.models.JwtPayload
+import com.twofa.duosec.database.DuosecDatabase
+import com.twofa.duosec.home.HomeActivity
+import com.twofa.duosec.models.jwt.JwtPayloadDatabase
+import com.twofa.duosec.models.jwt.JwtPayloadJson
+import com.twofa.duosec.utils.MoshiBuilder
+import com.twofa.duosec.utils.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 
@@ -36,26 +43,40 @@ class RegistrationActivity : AppCompatActivity() {
         hintView = findViewById(R.id.scanner_hint)
         codeScanner = CodeScanner(this, findViewById(R.id.scanner))
 
-//        Jwt Decouple Code
-//        val moshi = Moshi.Builder().build()
-//        val jwtPayloadAdapter = moshi.adapter(JwtPayload::class.java)
-//        val jwtPayload: JwtPayload? = jwtPayloadAdapter.fromJson(payload)
+        val jwtPayloadAdapter = MoshiBuilder.getJwtPayloadAdapter()
 
-        val sharedPref = getSharedPreferences(getString(R.string.shared_pref_jwt), Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
+        val dao = DuosecDatabase.getInstance(this).jwtPayloadDao
 
         codeScanner.decodeCallback = DecodeCallback {
             runOnUiThread {
                 val jwtToken: String = it.text
 
-                val chunks = jwtToken.split('.')
-                val (header, payloadChunk, _) = chunks
+                // Get payload in JSON String from jwtToken
+                val payload: String = Utils.getPayload(jwtToken)
 
-                val decoder = Base64.getUrlDecoder()
-                val payload = String(decoder.decode(payloadChunk))
+                // Convert JSON String into Kotlin Object
+                val payloadObj: JwtPayloadJson? = jwtPayloadAdapter.fromJson(payload)
 
-                editor.apply {
-                    putString("jwtPayload", payload)
+                val dbPayloadObj: JwtPayloadDatabase? = payloadObj?.let {
+                    return@let JwtPayloadDatabase(
+                        it.companyName,
+                        it.employeeUniqueIdHex,
+                        it.otpRefreshDuration,
+                        it.secret.contentToString(),
+                        it.algorithm,
+                        it.exp,
+                        it.iat
+                    )
+                }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    dbPayloadObj?.let {
+                        dao.insert(it)
+                    }
+
+                    withContext(Dispatchers.Main) {
+                        startActivity(Intent(this@RegistrationActivity, HomeActivity::class.java))
+                    }
                 }
             }
         }
