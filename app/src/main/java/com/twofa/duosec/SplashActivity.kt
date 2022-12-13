@@ -11,6 +11,7 @@ import com.twofa.duosec.fingerprint.VerifyFingerPrintActivity
 import com.twofa.duosec.home.HomeActivity
 import com.twofa.duosec.registration.RegistrationActivity
 import com.twofa.duosec.utils.hideActionBar
+import org.duosec.backendlibrary.SecretGenerator
 
 class SplashActivity : AppCompatActivity() {
 
@@ -19,6 +20,8 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+
+        println(SecretGenerator.generate().toString())
 
         setFullscreen()
 
