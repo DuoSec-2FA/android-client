@@ -71,7 +71,7 @@ dependencies {
     implementation 'com.github.yuriy-budiyev:code-scanner:2.3.2'
 
     // Backend Library for TOTP
-    implementation files('libs/backend-library.jar')
+    implementation files('libs/backend-library-1.0-SNAPSHOT.jar')
 
     // Jwt Decode
     implementation 'com.auth0.android:jwtdecode:2.0.1'

@@ -2,20 +2,17 @@ package com.twofa.duosec.recoverycode
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.twofa.duosec.api.ApiServiceDao
 import com.twofa.duosec.api.RetrofitBuilder
 import com.twofa.duosec.databinding.ActivityRecoveryCodeBinding
 import com.twofa.duosec.models.recovery_code.RecoveryCodeRequest
 import com.twofa.duosec.models.recovery_code.RecoveryCodeResponse
-import com.twofa.duosec.utils.Utils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import java.util.*
 
 class RecoveryCodeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecoveryCodeBinding
@@ -56,7 +53,9 @@ class RecoveryCodeActivity : AppCompatActivity() {
             if(response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
                     val data: RecoveryCodeResponse? = response.body()
-                    // binding.tvRecoveryCode.text = dataoU.recoveryCode
+                    data?.let {
+                        binding.tvRecoveryCode.text = it.recoveryCode
+                    }
                 }
             }
         }
