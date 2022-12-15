@@ -1,5 +1,6 @@
 package com.twofa.duosec.home
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.CountDownTimer
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import com.twofa.duosec.api.network.ConnectivityObserver
 import com.twofa.duosec.databinding.LayoutCompanyCardBinding
 import com.twofa.duosec.models.jwt.JwtPayloadDatabase
 import com.twofa.duosec.recoverycode.RecoveryCodeActivity
@@ -16,9 +18,8 @@ import java.nio.charset.Charset
 import java.time.Duration
 import java.util.*
 
+class JwtPayloadAdapter(private val context: Context, private val connectivityObserver: ConnectivityObserver, private val payloadsList: List<JwtPayloadDatabase>):  RecyclerView.Adapter<JwtPayloadAdapter.JwtPayloadViewHolder>() {
 
-class JwtPayloadAdapter(private val payloadsList: List<JwtPayloadDatabase>) :
-    RecyclerView.Adapter<JwtPayloadAdapter.JwtPayloadViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -47,16 +48,7 @@ class JwtPayloadAdapter(private val payloadsList: List<JwtPayloadDatabase>) :
                     this.companyName.get(0).toString().uppercase(Locale.ROOT)
                 binding.tvCompanyName.text = this.companyName
 
-                binding.btnShowRecoveryCode.setOnClickListener {
-                    val intent: Intent =
-                        Intent(holder.itemView.context, RecoveryCodeActivity::class.java)
-
-                    // Putting required data in Intent
-                    intent.putExtra("companyName", this.companyName)
-                    intent.putExtra("employeeUniqueIdHex", this.employeeUniqueIdHex)
-
-                    holder.itemView.context.startActivity(intent)
-                }
+                val secret: ByteArray = this.secret.toByteArray(Charset.defaultCharset())
 
                 val algo: HMACAlgorithm = if (Objects.equals(
                         this.algorithm,
@@ -68,11 +60,20 @@ class JwtPayloadAdapter(private val payloadsList: List<JwtPayloadDatabase>) :
                     )
                 ) HMACAlgorithm.SHA256 else HMACAlgorithm.SHA512
 
-                val secret: ByteArray = this.secret.toByteArray(Charset.defaultCharset())
-                handleUi(algo, secret, otpRefreshDuration, binding)
+                handleUi(algo, secret, this.otpRefreshDuration, binding)
+
+                binding.btnShowRecoveryCode.setOnClickListener {
+                    val intent: Intent =
+                        Intent(holder.itemView.context, RecoveryCodeActivity::class.java)
+                    intent.putExtra("companyName", this.companyName)
+                    intent.putExtra("employeeUniqueIdHex", this.employeeUniqueIdHex)
+                    context.startActivity(intent)
+                }
             }
         }
     }
+
+    override fun getItemCount() = payloadsList.size
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun handleUi(
@@ -107,8 +108,19 @@ class JwtPayloadAdapter(private val payloadsList: List<JwtPayloadDatabase>) :
             }
         }.start()
     }
-
-
-    // Return the size of your dataset (invoked by the layout manager)
-    override fun getItemCount() = payloadsList.size
 }
+//                    connectivityObserver.observe().onEach {
+//                        if(it == ConnectivityStatus.AVAILABLE) {
+//                            val intent: Intent = Intent(holder.itemView.context, RecoveryCodeActivity::class.java)
+//
+//
+//                            // Putting required data in Intent
+//                            intent.putExtra("companyName", this.companyName)
+//                            intent.putExtra("employeeUniqueIdHex", this.employeeUniqueIdHex)
+//
+//                            context.startActivity(intent)
+//                        } else {
+//                            Toast.makeText(context, "Internet is not connected. Please connect to internet to see recovery code.", Toast.LENGTH_LONG).show()
+//                        }
+//                    }.launchIn(CoroutineScope(Dispatchers.Main))
+//                }

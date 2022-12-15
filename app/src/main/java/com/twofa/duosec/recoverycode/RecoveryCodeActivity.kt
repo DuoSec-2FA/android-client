@@ -29,6 +29,9 @@ class RecoveryCodeActivity : AppCompatActivity() {
         val companyName: String? = intent.getStringExtra("companyName")
         val employeeUniqueIdHex: String? = intent.getStringExtra("employeeUniqueIdHex")
 
+        println("comp : $companyName")
+        println("employeeUniqueIdHex : $employeeUniqueIdHex")
+
         companyName?.let {
             supportActionBar?.title = it
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -45,16 +48,17 @@ class RecoveryCodeActivity : AppCompatActivity() {
         }
     }
 
-    fun setRecoveryCode(recoveryCodeRequest: RecoveryCodeRequest) {
+    private fun setRecoveryCode(recoveryCodeRequest: RecoveryCodeRequest) {
         val dao: ApiServiceDao = RetrofitBuilder.apiService
 
         CoroutineScope(Dispatchers.IO).launch {
             val response: Response<RecoveryCodeResponse> = dao.getRecoveryCode(recoveryCodeRequest)
             if(response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
-                    val data: RecoveryCodeResponse? = response.body()
-                    data?.let {
-                        binding.tvRecoveryCode.text = it.recoveryCode
+                    val recoveryCode: RecoveryCodeResponse? = response.body()
+                     recoveryCode?.let {
+                         println("recov code: ${it.recoveryCode}")
+                         binding.tvRecoveryCode.text = it.recoveryCode
                     }
                 }
             }
