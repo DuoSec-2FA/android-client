@@ -29,9 +29,6 @@ class RecoveryCodeActivity : AppCompatActivity() {
         val companyName: String? = intent.getStringExtra("companyName")
         val employeeUniqueIdHex: String? = intent.getStringExtra("employeeUniqueIdHex")
 
-        println("comp : $companyName")
-        println("employeeUniqueIdHex : $employeeUniqueIdHex")
-
         companyName?.let {
             supportActionBar?.title = it
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -57,7 +54,6 @@ class RecoveryCodeActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     val recoveryCode: RecoveryCodeResponse? = response.body()
                      recoveryCode?.let {
-                         println("recov code: ${it.recoveryCode}")
                          binding.tvRecoveryCode.text = it.recoveryCode
                     }
                 }

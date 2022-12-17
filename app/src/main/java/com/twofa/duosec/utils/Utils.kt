@@ -24,6 +24,10 @@ object Utils {
         return payload
     }
 
+    fun isJwtExpired(exp: Long): Boolean {
+        return exp < System.currentTimeMillis()
+    }
+
     fun generateOTP(): Int {
         val r = Random()
         val low = 1000000000

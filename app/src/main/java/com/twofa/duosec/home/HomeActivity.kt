@@ -35,7 +35,7 @@ class HomeActivity : AppCompatActivity() {
         val dao = DuosecDatabase.getInstance(this).jwtPayloadDao
 
         CoroutineScope(Dispatchers.IO).launch {
-            val payloadsList: List<JwtPayloadDatabase> = dao.getAll()
+            val payloadsList: List<JwtPayloadDatabase> = dao.getAllJwtPayloads()
             withContext(Dispatchers.Main) {
                 binding.rvCompanyData.layoutManager = LinearLayoutManager(this@HomeActivity)
                 binding.rvCompanyData.adapter = JwtPayloadAdapter(this@HomeActivity, connectivityObserver, payloadsList)
