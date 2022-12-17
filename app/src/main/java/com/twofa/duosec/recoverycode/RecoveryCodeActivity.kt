@@ -45,16 +45,16 @@ class RecoveryCodeActivity : AppCompatActivity() {
         }
     }
 
-    fun setRecoveryCode(recoveryCodeRequest: RecoveryCodeRequest) {
+    private fun setRecoveryCode(recoveryCodeRequest: RecoveryCodeRequest) {
         val dao: ApiServiceDao = RetrofitBuilder.apiService
 
         CoroutineScope(Dispatchers.IO).launch {
             val response: Response<RecoveryCodeResponse> = dao.getRecoveryCode(recoveryCodeRequest)
             if(response.isSuccessful && response.body() != null) {
                 withContext(Dispatchers.Main) {
-                    val data: RecoveryCodeResponse? = response.body()
-                    data?.let {
-                        binding.tvRecoveryCode.text = it.recoveryCode
+                    val recoveryCode: RecoveryCodeResponse? = response.body()
+                     recoveryCode?.let {
+                         binding.tvRecoveryCode.text = it.recoveryCode
                     }
                 }
             }

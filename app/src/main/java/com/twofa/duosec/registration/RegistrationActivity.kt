@@ -51,27 +51,11 @@ class RegistrationActivity : AppCompatActivity() {
             runOnUiThread {
                 val jwtToken: String = it.text
 
-                // Get payload in JSON String from jwtToken
-                val payload: String = Utils.getPayload(jwtToken)
-
-                // Convert JSON String into Kotlin Object
-                val payloadObj: JwtPayloadJson? = jwtPayloadAdapter.fromJson(payload)
-
-                val dbPayloadObj: JwtPayloadDatabase? = payloadObj?.let {
-                    return@let JwtPayloadDatabase(
-                        it.companyName,
-                        it.employeeUniqueIdHex,
-                        it.otpRefreshDuration,
-                        it.secret.contentToString(),
-                        it.algorithm,
-                        it.exp,
-                        it.iat
-                    )
-                }
+                val dbPayloadObj = MoshiBuilder.getJwtPayloadDatabaseObj(jwtToken)
 
                 CoroutineScope(Dispatchers.IO).launch {
                     dbPayloadObj?.let {
-                        dao.insert(it)
+                        dao.insertJwtPayload(it)
                     }
 
                     withContext(Dispatchers.Main) {

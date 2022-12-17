@@ -7,6 +7,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.twofa.duosec.R
+import com.twofa.duosec.api.network.ConnectivityObserver
+import com.twofa.duosec.api.network.NetworkConnectivityObserver
 import com.twofa.duosec.database.DuosecDatabase
 import com.twofa.duosec.databinding.ActivityHomeBinding
 import com.twofa.duosec.fingerprint.FingerPrintActivity
@@ -20,6 +22,7 @@ import kotlinx.coroutines.withContext
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var connectivityObserver: ConnectivityObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,13 +31,14 @@ class HomeActivity : AppCompatActivity() {
         setContentView(view)
         supportActionBar?.title = "Duo Sec"
 
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
         val dao = DuosecDatabase.getInstance(this).jwtPayloadDao
 
         CoroutineScope(Dispatchers.IO).launch {
-            val payloadsList: List<JwtPayloadDatabase> = dao.getAll()
+            val payloadsList: List<JwtPayloadDatabase> = dao.getAllJwtPayloads()
             withContext(Dispatchers.Main) {
                 binding.rvCompanyData.layoutManager = LinearLayoutManager(this@HomeActivity)
-                binding.rvCompanyData.adapter = JwtPayloadAdapter(payloadsList)
+                binding.rvCompanyData.adapter = JwtPayloadAdapter(this@HomeActivity, connectivityObserver, payloadsList)
             }
         }
 
